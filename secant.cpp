@@ -24,14 +24,18 @@ double calculate_next_root(double previousRoot, double currentRoot, double ampli
 }
 
 double secant_method(double amplitude, double initialDisplacement) {
-    double upperLimit = 0.7, previousRoot = initialDisplacement, currentRoot = previousRoot + 1;
-    for(int i = 0; i < 3; ++i) {
-        std::cout << "Current Root: " << currentRoot;
+    double upperLimit = 1.7, previousRoot = initialDisplacement, currentRoot = previousRoot + 1.0;
+    for(int i = 0; i < 30; ++i) {
+        std::cout << "Iteration " << i << " - Current Root: " << currentRoot << "\n";
         double nextRoot = calculate_next_root(previousRoot, currentRoot, amplitude);
+        if (nextRoot > upperLimit) {
+            std::cout << nextRoot << "greater than " << upperLimit << "! Aborting...";
+            return currentRoot;
+        }
         previousRoot = currentRoot; currentRoot = nextRoot;
-
     }
-
+    std::cout << "All iterations finished. Current Root: " << currentRoot;
+    return currentRoot;
 }
 
 int main()
