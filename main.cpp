@@ -6,8 +6,9 @@
 
 using namespace std;
 
+
 // Metodo Newton modificado
-int callNewtonModified( double valueA, double precision, int maxIterations );
+int callNewtonModified( double valueA, double precision, int maxIterations, double chute);
 
 
 int main(){
@@ -17,6 +18,7 @@ int main(){
   int numberN;
   int maxIteration;
   double precision;
+  double chute;
 
   cout << "Digite o numero maximo de iterações:" << "\n";
   cin >> maxIteration;
@@ -24,7 +26,10 @@ int main(){
   cout << "Digite a precisão aceitável:" << "\n";
   cin >> precision;
 
-  cout << "Digite um numero:" << "\n";
+  cout << "Digite o valor do chute:" << "\n";
+  cin >> chute;
+
+  cout << "Digite o numero N de amplitudes:" << "\n";
   cin >> numberN;
 
   for (int i = 0; i < numberN; i++)
@@ -39,11 +44,12 @@ int main(){
 
   for (int i = 0; i < coeficienteMyFunctions.size(); i++)
   {
-    callNewtonModified(coeficienteMyFunctions[i], precision, maxIteration);
+
+    cout << "\n" << "Valores para amplitude " << i+ 1 << " : " << coeficienteMyFunctions[i] << "\n";
+    cout << "F(d) = " << coeficienteMyFunctions[i] << "*e^d - 4d^2";  
+    callNewtonModified(coeficienteMyFunctions[i], precision, maxIteration, chute);
 
   }
   
-  
-
   return 0;
 }
