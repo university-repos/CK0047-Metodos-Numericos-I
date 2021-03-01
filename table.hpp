@@ -12,7 +12,7 @@ void alinharPasso(string nome, double max);
 void linha(double max);
 void mountComparativeTable(vector<double> tabelaPoly, vector<double> tabelaNewton, vector<double> tabelaScante);
 
-void table(vector<vector<double>> tabela){
+void table(vector<vector<double>> tabela, vector<string> header){
 // valor do X  //// valor Px //// valor da derivada
   double valorK = tabela[tabela.size()-1][0];
   int max;
@@ -20,9 +20,11 @@ void table(vector<vector<double>> tabela){
   linha(pontilhado);
   alinharPasso("K", valorK);
   cout << " |";
-  alinhar("d", tabela[0][1]);
-  alinhar("F(d)", tabela[0][2]);
-  alinhar("F'(d)", tabela[0][3]);  
+  for (int i = 0; i < header.size(); i++)
+  {
+    alinhar(header[i], tabela[0][i+1]);
+  }
+  
   for(int i=0; i < tabela.size(); i++){
     linha(pontilhado);
     for(int l=0; l < tabela[i].size(); l++){

@@ -1,12 +1,9 @@
 #include <iostream>
 #include <vector>
 #include <math.h>
-#include "table.hpp"
+#include <string.h>
 
 using namespace std;
-
-// Funçoes externas
-void table(vector<vector<double>> A);
 
 void printLinha(vector<double> a);
 // Funcoes internas
@@ -18,7 +15,9 @@ int callNewtonModified( double valueA, double precision, int maxIterations, doub
 
   vector<vector<double>> res = newtonModified(valueA, chute, precision, maxIterations, chute);
 
-  table(res);
+  vector<string> header = {"d", "F(d)", "F'(d)"};
+
+  table(res, header);
 
   return 0;
 }
@@ -59,7 +58,7 @@ vector<vector<double>> newtonModified(double coeficient, double x0Value, double 
     x0Value = x1;
     k++;
   }
-
+  cout << "\n" << "O calculo não convergiu!" << "\n";
   return QuadroResposta;
 };
 

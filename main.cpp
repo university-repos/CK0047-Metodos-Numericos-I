@@ -2,14 +2,25 @@
 #include <vector>
 #include <cmath>
 
+#include "table.hpp"
 #include "newton_modified.hpp"
+#include "newton_raphson.hpp"
+#include "secant.hpp"
 
 using namespace std;
 
 
+// Tabela
+void table(vector<vector<double>> tabela, vector<string> header);
+
 // Metodo Newton modificado
 int callNewtonModified( double valueA, double precision, int maxIterations, double chute);
 
+// Metodo Newton Raphson
+int callNewtonRaphson( double valueA, double precision, int maxIterations, double chute);
+
+// Metodo Secante
+void callSecant_method(double amplitude, double initialDisplacement, int maxIterations);
 
 int main(){
 
@@ -45,10 +56,26 @@ int main(){
   for (int i = 0; i < coeficienteMyFunctions.size(); i++)
   {
 
+    cout << "\n" << "========================================";
+    cout << " NEWTON MODIFICADO " << "\n";
     cout << "\n" << "Valores para amplitude " << i+ 1 << " : " << coeficienteMyFunctions[i] << "\n";
     cout << "F(d) = " << coeficienteMyFunctions[i] << "*e^d - 4d^2";  
     callNewtonModified(coeficienteMyFunctions[i], precision, maxIteration, chute);
+    cout << "\n" << "========================================";
+    
+      cout << "\n" << "========================================";
+    cout << " NEWTON Raphson " << "\n";
+    cout << "\n" << "Valores para amplitude " << i+ 1 << " : " << coeficienteMyFunctions[i] << "\n";
+    cout << "F(d) = " << coeficienteMyFunctions[i] << "*e^d - 4d^2";  
+    callNewtonRaphson(coeficienteMyFunctions[i], precision, maxIteration, chute);
+    cout << "\n" << "========================================";
 
+    cout << "\n" << "========================================";
+    cout << " SECANTE " << "\n";
+    cout << "\n" << "Valores para amplitude " << i+ 1 << " : " << coeficienteMyFunctions[i] << "\n";
+    cout << "F(d) = " << coeficienteMyFunctions[i] << "*e^d - 4d^2";  
+    callSecant_method(coeficienteMyFunctions[i], precision, maxIteration, chute);
+    cout << "\n" << "========================================";
   }
   
   return 0;
