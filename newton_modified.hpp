@@ -60,7 +60,7 @@ vector<vector<double>> newtonModified(double coeficient, double x0Value, double 
   }
   cout << "\n" << "O calculo não convergiu!" << "\n";
   return QuadroResposta;
-};
+}
 
 double genericFunction(double coeficient, double xValue){
     
@@ -73,7 +73,7 @@ double genericFunctionDerivate(double coeficient, double xValue){
 }
 
 void printLinha(vector<double> a){
-  for (int i = 0; i < a.size(); i++)
+  for (unsigned int i = 0; i < a.size(); i++)
   {
     cout << i << " valor: " << a[i] << "\n";
   }

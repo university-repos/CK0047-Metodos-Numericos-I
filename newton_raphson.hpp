@@ -57,4 +57,4 @@ vector<vector<double>> newtonRaphson(double coeficient, double x0Value, double p
   }
   cout << "\n" << "O calculo não convergiu!" << "\n";
   return QuadroResposta;
-};
+}

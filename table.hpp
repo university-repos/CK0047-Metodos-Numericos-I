@@ -20,14 +20,14 @@ void table(vector<vector<double>> tabela, vector<string> header){
   linha(pontilhado);
   alinharPasso("K", valorK);
   cout << " |";
-  for (int i = 0; i < header.size(); i++)
+  for (unsigned int i = 0; i < header.size(); i++)
   {
     alinhar(header[i], tabela[0][i+1]);
   }
   
-  for(int i=0; i < tabela.size(); i++){
+  for(unsigned int i=0; i < tabela.size(); i++){
     linha(pontilhado);
-    for(int l=0; l < tabela[i].size(); l++){
+    for(unsigned int l=0; l < tabela[i].size(); l++){
       if (l==0){
         alinharPasso(to_string((int)round(tabela[i][l])), valorK);
       }

@@ -46,36 +46,36 @@ int main(){
   for (int i = 0; i < numberN; i++)
   {
     double valueA;
-    cout << "Digite o valor do " << i << " a" << "\n";
+    cout << "Digite o valor da amplitude" << i <<  ":\n";
     cin >> valueA;
 
     coeficienteMyFunctions.push_back(valueA);
 
   }
 
-  for (int i = 0; i < coeficienteMyFunctions.size(); i++)
+  for (unsigned int i = 0; i < coeficienteMyFunctions.size(); i++)
   {
 
-    cout << "\n" << "========================================";
-    cout << " NEWTON MODIFICADO " << "\n";
+    cout << "\n" << "============NEWTON MODIFICADO===========";
+    // cout << " NEWTON MODIFICADO " << "\n";
     cout << "\n" << "Valores para amplitude " << i+ 1 << " : " << coeficienteMyFunctions[i] << "\n";
     cout << "F(d) = " << coeficienteMyFunctions[i] << "*e^d - 4d^2";  
     callNewtonModified(coeficienteMyFunctions[i], precision, maxIteration, chute);
-    cout << "\n" << "========================================";
+    // cout << "\n" << "========================================";
     
-      cout << "\n" << "========================================";
-    cout << " NEWTON Raphson " << "\n";
+    cout << "\n" << "=============NEWTON RAPHSON=============";
+    // cout << " NEWTON RAPHSON " << "\n";
     cout << "\n" << "Valores para amplitude " << i+ 1 << " : " << coeficienteMyFunctions[i] << "\n";
     cout << "F(d) = " << coeficienteMyFunctions[i] << "*e^d - 4d^2";  
     callNewtonRaphson(coeficienteMyFunctions[i], precision, maxIteration, chute);
-    cout << "\n" << "========================================";
+    // cout << "\n" << "========================================";
 
-    cout << "\n" << "========================================";
-    cout << " SECANTE " << "\n";
+    cout << "\n" << "================SECANTE=================";
+    // cout << " SECANTE " << "\n";
     cout << "\n" << "Valores para amplitude " << i+ 1 << " : " << coeficienteMyFunctions[i] << "\n";
     cout << "F(d) = " << coeficienteMyFunctions[i] << "*e^d - 4d^2";  
     callSecant_method(coeficienteMyFunctions[i], precision, maxIteration, chute);
-    cout << "\n" << "========================================";
+    // cout << "\n" << "========================================";
   }
   
   return 0;
