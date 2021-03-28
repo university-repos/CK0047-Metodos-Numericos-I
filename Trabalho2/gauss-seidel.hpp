@@ -1,12 +1,11 @@
 #include <iostream>
 #include <vector>
-#include "convergencia.hpp"
 #include "norma.hpp"
 
 using namespace std;
 
 // Adiciona valores a uma deterninada coluna de um determidada matriz
-vector<vector<double>> gaussSeidel( vector<vector<double>> matrix, vector<vector<double>> colunaIdenttidade){
+vector<vector<double>> gaussSeidel( vector<vector<double>> matrix, vector<vector<double>> colunaIdenttidade, double erro, int max){
 
   vector<vector<double>> newtMatrix = matrix; // A
   vector<vector<double>> newColunaIdentidade = colunaIdenttidade; // b
@@ -14,12 +13,9 @@ vector<vector<double>> gaussSeidel( vector<vector<double>> matrix, vector<vector
   vector<vector<double>> resultadoX (colunaIdenttidade.size(), vector<double>(1)); // x
   vector<vector<double>> auxMatrixV (colunaIdenttidade.size(), vector<double>(1)); // v
 
-  double erro = 0.0001;
-  int max = 10;
+  //double erro = 0.0001;
+  //int max = 10;
   double r;
-
-  // Teste de Convergencia
-  bool teste = CriterioSassenfeld(matrix);
 
   int grauMatrix = matrix.size();
 
@@ -32,10 +28,8 @@ vector<vector<double>> gaussSeidel( vector<vector<double>> matrix, vector<vector
         newtMatrix[i][j] = newtMatrix[i][j] * r;
       }
     }
-
     newColunaIdentidade[i][0] = newColunaIdentidade[i][0] * r;
-    resultadoX[i][0] = newColunaIdentidade[i][0] * r;
-
+    resultadoX[i][0] = newColunaIdentidade[i][0];
   }
 
   int k = 0;
@@ -62,5 +56,6 @@ vector<vector<double>> gaussSeidel( vector<vector<double>> matrix, vector<vector
     }
   }
 
+  cout << "\n" << "O Metodo de Gauss Seidel NÂO convergio." << "\n";
   return resultadoX;
 }

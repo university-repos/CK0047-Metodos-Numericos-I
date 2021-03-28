@@ -3,50 +3,73 @@
 #include <cmath>
 #include "table.hpp"
 #include "gauss-seidel.hpp"
+#include "convergencia.hpp"
+#include "gauss-jacobi.hpp"
+
 using namespace std;
 
-void printMatriz(vector<vector<double>> matrizA);
-vector<vector<double>> montarMatriz( vector<vector<double>> matriz, vector<vector<double>> addMatriz, int index );
-vector<vector<double>> multiplicarMatriz(vector<vector<double>> matrixA, vector<vector<double>> matrixB);
-vector<double> montarVetor(vector<vector<double>> matriz);
+vector<vector<double>> montarMatrix( vector<vector<double>> matrix, vector<vector<double>> addMatrix, int index );
+vector<vector<double>> multiplicarMatrix(vector<vector<double>> matrixA, vector<vector<double>> matrixB);
+vector<double> montarVetor(vector<vector<double>> matrix);
 
 int main() {
 
   // Variaveis
   int grauA;
-  double valueMatriz;
+  double valueMatrix, valorError, maxIteracoes;
   
-  // Matriz A
-  cout << "Qual o grau da Matriz A: ";
-  cin >> grauA; 
+  // Matrix A
+  cout << "Qual o grau da Matrix A: ";
+  cin >> grauA;
+
+  // Error
+  cout << "Qual o error: ";
+  cin >> valorError;
+
+  // MaxIterations
+  cout << "Qual o maximo de iterações: ";
+  cin >> maxIteracoes; 
   
-  // Cria as matrizes
-  // vector<vector<double>> matrizA (grauA, vector<double>(grauA)), matrizInversa (grauA, vector<double>(grauA)) ;
-  // vector<vector<double>> matrizB (grauA, vector<double>(1));
+  // Cria as matrixes
+  vector<vector<double>> matrixA (grauA, vector<double>(grauA)), matrixInversaSeidel (grauA, vector<double>(grauA)), matrixInversaJacobi (grauA, vector<double>(grauA)) ;
+  vector<vector<double>> matrixB (grauA, vector<double>(1));
   
-  vector<vector<double>> matrizA = {{5, 3, 1}, {5, 6, 1}, {1, 6, 7}},  matrizInversa (grauA, vector<double>(grauA)) ;
-  vector<vector<double>> matrizB = {{1}, {2}, {3}};
+  // Exemplo que Nao converge
+  //vector<vector<double>> matrixA = {{2, 1, 3}, {0, -1, 1}, {1, 0, 3}},  matrixInversaSeidel (grauA, vector<double>(grauA)) ;
+  
+  // Exemplo que converge
+  //vector<vector<double>> matrixA = {{5, 3, 1}, {5, 6, 1}, {1, 6, 7}},  matrixInversaSeidel (grauA, vector<double>(grauA)) ;
+
+  //vector<vector<double>> matrixB = {{1}, {2}, {3}};
 
 
-  // // Popular Matriz
-  // for(int i=0; i<grauA; i++){
-  //   for(int j=0; j<grauA; j++){
-  //     cout << "Entre o valor de a" << i+1 << j+1 << ": ";
-  //     cin >> matrizA[i][j];
-  //   }
-  // }
+  // Popular Matrix A
+  for(int i=0; i<grauA; i++){
+    for(int j=0; j<grauA; j++){
+      cout << "Entre o valor de a" << i+1 << j+1 << ": ";
+      cin >> matrixA[i][j];
+    }
+  }
 
-  // // Popular Matriz b
-  // cout << "Entre os valores da Matriz b" << endl;
-  // for(int i=0; i<grauA; i++){
-  //   cout << "Entre o valor de b" << i+1 << ": ";
-  //   cin >> valueMatriz;
-  //   matrizB[i][0] = valueMatriz;
-  // }
+  // Popular Matrix b
+  cout << "Entre os valores da Matrix b" << endl;
+  for(int i=0; i<grauA; i++){
+    cout << "Entre o valor de b" << i+1 << ": ";
+    cin >> valueMatrix;
+    matrixB[i][0] = valueMatrix;
+  }
 
   // --------------
   // GAUSS SEIDEL - INICIO
   // --------------
+  
+  cout << "++++++++++++++++++++++++++++++";
+  cout << "\n" << "GAUSS SEIDEL" << "\n";
+  cout << "++++++++++++++++++++++++++++++" << "\n";
+
+  // Criterios de convergencia
+  bool teste1 = criterioSassenfeld(matrixA);
+  bool teste2 = criterioLinhas(matrixA);
 
   // Monta a inversa utilizando GAUSS SEIDEL
   for (int i=0; i<grauA; i++){
@@ -55,33 +78,30 @@ int main() {
     // Gera a identidade
     identidade[i][0] = 1;
 
-    vector<vector<double>> colunaInversa = gaussSeidel(matrizA, identidade);
+    // Gera a inversa da Coluna i
+    vector<vector<double>> colunaInversa = gaussSeidel(matrixA, identidade, valorError, maxIteracoes);
 
-    matrizInversa = montarMatriz(matrizInversa, colunaInversa, i);
+    // Adiciona a coluna na nova matriz
+    matrixInversaSeidel = montarMatrix(matrixInversaSeidel, colunaInversa, i);
   }
 
   // Apresenta matrix inversa
-  //table(matrizInversa);
-
-
-  cout << "++++++++++++++++++++++++++++++";
-  cout << "\n" << "GAUSS SEIDEL" << "\n";
-  cout << "++++++++++++++++++++++++++++++" << "\n";
+  //table(matrixInversaSeidel);
 
   cout << "==============================" << "\n";
-  cout << "\n" << "Valores da Matriz A: " << "\n";
-  table(matrizA);
+  cout << "\n" << "Valores da Matrix A: " << "\n";
+  table(matrixA);
   cout << "==============================" << "\n";
   
   cout << "==============================" << "\n";
-  cout << "\n" << "Valores da Matriz B: " << "\n";
-  vector<double> vetorBSeidel = montarVetor(matrizB);
+  cout << "\n" << "Valores da Matrix B: " << "\n";
+  vector<double> vetorBSeidel = montarVetor(matrixB);
   unionTable(vetorBSeidel);
   cout << "==============================" << "\n";
   
   cout << "==============================" << "\n";
-  vector<double> matrixDSeidel = montarVetor(multiplicarMatriz(matrizInversa, matrizB));
-  cout << "\n" << "Valores da Matriz D: " << "\n";
+  vector<double> matrixDSeidel = montarVetor(multiplicarMatrix(matrixInversaSeidel, matrixB));
+  cout << "\n" << "Valores da Matrix D: " << "\n";
   unionTable(matrixDSeidel);
   cout << "==============================" << "\n";
   
@@ -89,48 +109,87 @@ int main() {
   // GAUSS SEIDEL - FIM
   // --------------
 
+  // --------------
+  // GAUSS Jacobi - INICIO
+  // --------------
+
+  cout << "++++++++++++++++++++++++++++++";
+  cout << "\n" << "GAUSS Jacobi" << "\n";
+  cout << "++++++++++++++++++++++++++++++" << "\n";
+
+  // Criterios de convergencia
+  bool teste3 = criterioLinhas(matrixA);
+
+  // Monta a inversa utilizando GAUSS Jacobi
+  for (int i=0; i<grauA; i++){
+    vector<vector<double>> identidadeJacobi (grauA, vector<double>(1));
+
+    // Gera a identidadeJacobi
+    identidadeJacobi[i][0] = 1;
+
+    // Gera a inversa da Coluna i
+    vector<vector<double>> colunaInversaJacobi = jacobiMethod(matrixA, montarVetor(identidadeJacobi), valorError, maxIteracoes);
+
+    // Adiciona a coluna na nova matriz
+    matrixInversaJacobi = montarMatrix(matrixInversaJacobi, colunaInversaJacobi, i);
+  }
+
+  // Apresenta matrix inversa
+  //table(matrixInversaJacobi);
+
+  cout << "==============================" << "\n";
+  cout << "\n" << "Valores da Matrix A: " << "\n";
+  table(matrixA);
+  cout << "==============================" << "\n";
+  
+  cout << "==============================" << "\n";
+  cout << "\n" << "Valores da Matrix B: " << "\n";
+  vector<double> vetorBJacobi = montarVetor(matrixB);
+  unionTable(vetorBJacobi);
+  cout << "==============================" << "\n";
+  
+  cout << "==============================" << "\n";
+  vector<double> matrixDJacobi = montarVetor(multiplicarMatrix(matrixInversaJacobi, matrixB));
+  cout << "\n" << "Valores da Matrix D: " << "\n";
+  unionTable(matrixDJacobi);
+  cout << "==============================" << "\n";
+  
+  // --------------
+  // GAUSS Jacobi - FIM
+  // --------------
+
   return 0;
 
 }
 
-// Apresenta a Matriz
-void printMatriz(vector<vector<double>> matriz) {
-  for(int i=0; i<matriz.size(); i++){
-    for(int j=0; j<matriz[0].size(); j++){
-      cout << matriz[i][j] << " ";
-    }
-    cout << "\n";
-  }
-}
+// Adiciona valores a uma deterninada coluna de um determidada matrix
+vector<vector<double>> montarMatrix( vector<vector<double>> matrix, vector<vector<double>> addMatrix, int index ){
 
-// Adiciona valores a uma deterninada coluna de um determidada matriz
-vector<vector<double>> montarMatriz( vector<vector<double>> matriz, vector<vector<double>> addMatriz, int index ){
-
-  vector<vector<double>> newMatriz = matriz;
+  vector<vector<double>> newMatrix = matrix;
   // Per
-  for(int i=0; i<addMatriz.size(); i++){
-    for(int j=0; j<addMatriz[0].size(); j++){
-      newMatriz[i][index] = addMatriz[i][j];
+  for(int i=0; i<addMatrix.size(); i++){
+    for(int j=0; j<addMatrix[0].size(); j++){
+      newMatrix[i][index] = addMatrix[i][j];
     }
   }
 
-  return newMatriz;
+  return newMatrix;
 }
 
-vector<double> montarVetor(vector<vector<double>> matriz){
+vector<double> montarVetor(vector<vector<double>> matrix){
   vector<double> newVector;
 
-  for(int i=0; i<matriz.size(); i++){
-    for(int j=0; j<matriz[i].size(); j++){
-      newVector.push_back(matriz[i][j]);
+  for(int i=0; i<matrix.size(); i++){
+    for(int j=0; j<matrix[i].size(); j++){
+      newVector.push_back(matrix[i][j]);
     }
   }
 
   return newVector;
 }
 
-// Mutiplica MatrizA pela MatrizB
-vector<vector<double>> multiplicarMatriz(vector<vector<double>> matrixA, vector<vector<double>> matrixB) {
+// Mutiplica MatrixA pela MatrixB
+vector<vector<double>> multiplicarMatrix(vector<vector<double>> matrixA, vector<vector<double>> matrixB) {
   vector<vector<double>> newMatrix (matrixA.size() ,vector<double> (matrixB[0].size()));  
 
   for(int i = 0; i < matrixA.size(); i++){
