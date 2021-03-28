@@ -4,7 +4,7 @@
 
 using namespace std;
 
-bool criterioSassenfeld(vector<vector<double>> matrixA){
+void criterioSassenfeld(vector<vector<double>> matrixA){
 
   vector<double> matrixB (matrixA.size());
 
@@ -33,29 +33,30 @@ bool criterioSassenfeld(vector<vector<double>> matrixA){
   
   if( maxElemento < 1){
     cout << "\n" << "A convergencia é garantida pelo metodo Sassenfeld" << "\n";
-    return true;
-    
+    return;
   } else {
     cout << "\n" << "A convergencia NÃO é garantida pelo metodo Sassenfeld" << "\n";
-    return false;
+    return;
   }
 }
 
-bool criterioLinhas(vector<vector<double>> matrixA) {
+void criterioLinhas(vector<vector<double>> matrixA) {
   
   for (int i = 0; i < matrixA.size(); i++){
     double valuaA = abs(matrixA[i][i]);
     double soma = 0;
     for (int j = 0; j < matrixA[i].size(); j++){
-      soma += abs(matrixA[i][j]);
+      if (i != j) { 
+        soma += abs(matrixA[i][j]);
+      }
     }
     if( valuaA <= soma ) {
       cout << "\n" << "A convergencia NÃO é garantida pelo metodo das Linhas" << "\n";
-      return false;
+      return;
     }
   }
   
-  cout << "\n" << "A convergencia é garantida pelo metodo Sassenfeld" << "\n";
+  cout << "\n" << "A convergencia é garantida pelo metodo da Linhas" << "\n";
+  return;
 
-  return true;
 }

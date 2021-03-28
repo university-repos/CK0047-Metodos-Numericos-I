@@ -56,6 +56,6 @@ vector<vector<double>> gaussSeidel( vector<vector<double>> matrix, vector<vector
     }
   }
 
-  cout << "\n" << "O Metodo de Gauss Seidel NÂO convergio." << "\n";
+  cout << "\n" << "O Metodo de Gauss Seidel NÂO convergiu." << "\n";
   return resultadoX;
 }

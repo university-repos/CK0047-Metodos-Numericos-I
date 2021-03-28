@@ -68,8 +68,8 @@ int main() {
   cout << "++++++++++++++++++++++++++++++" << "\n";
 
   // Criterios de convergencia
-  bool teste1 = criterioSassenfeld(matrixA);
-  bool teste2 = criterioLinhas(matrixA);
+  criterioSassenfeld(matrixA);
+  criterioLinhas(matrixA);
 
   // Monta a inversa utilizando GAUSS SEIDEL
   for (int i=0; i<grauA; i++){
@@ -118,7 +118,7 @@ int main() {
   cout << "++++++++++++++++++++++++++++++" << "\n";
 
   // Criterios de convergencia
-  bool teste3 = criterioLinhas(matrixA);
+  criterioLinhas(matrixA);
 
   // Monta a inversa utilizando GAUSS Jacobi
   for (int i=0; i<grauA; i++){
