@@ -23,7 +23,7 @@ int main() {
   cin >> grauA;
 
   // Error
-  cout << "Qual o error: ";
+  cout << "Qual o erro: ";
   cin >> valorError;
 
   // MaxIterations
@@ -71,6 +71,9 @@ int main() {
   criterioSassenfeld(matrixA);
   criterioLinhas(matrixA);
 
+  clock_t start, end;
+  start = clock();
+
   // Monta a inversa utilizando GAUSS SEIDEL
   for (int i=0; i<grauA; i++){
     vector<vector<double>> identidade (grauA, vector<double>(1));
@@ -104,6 +107,9 @@ int main() {
   cout << "\n" << "Valores da Matrix D: " << "\n";
   unionTable(matrixDSeidel);
   cout << "==============================" << "\n";
+
+  end = clock();
+  cout << " \n" << "Tempo de execução: " << 1000*(double(end-start) / double(CLOCKS_PER_SEC)) << "\n";
   
   // --------------
   // GAUSS SEIDEL - FIM
@@ -117,6 +123,7 @@ int main() {
   cout << "\n" << "GAUSS Jacobi" << "\n";
   cout << "++++++++++++++++++++++++++++++" << "\n";
 
+  start = clock();
   // Criterios de convergencia
   criterioLinhas(matrixA);
 
@@ -153,6 +160,9 @@ int main() {
   cout << "\n" << "Valores da Matrix D: " << "\n";
   unionTable(matrixDJacobi);
   cout << "==============================" << "\n";
+
+  end = clock();
+  cout << " \n" << "Tempo de execução: " << 1000*(double(end-start) / double(CLOCKS_PER_SEC)) << "\n";
   
   // --------------
   // GAUSS Jacobi - FIM

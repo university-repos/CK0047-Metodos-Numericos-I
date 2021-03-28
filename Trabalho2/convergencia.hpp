@@ -30,6 +30,8 @@ void criterioSassenfeld(vector<vector<double>> matrixA){
   }
 
   double maxElemento = *max_element(matrixB.begin(), matrixB.end());
+
+  cout << "Beta = " << maxElemento << "\n";
   
   if( maxElemento < 1){
     cout << "\n" << "A convergencia é garantida pelo metodo Sassenfeld" << "\n";
